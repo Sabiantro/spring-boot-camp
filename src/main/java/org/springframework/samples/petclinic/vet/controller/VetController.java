@@ -13,13 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.samples.petclinic.vet;
+package org.springframework.samples.petclinic.vet.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.samples.petclinic.vet.dto.Vet;
+import org.springframework.samples.petclinic.vet.dto.Vets;
+import org.springframework.samples.petclinic.vet.service.VetService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,12 +37,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author Arjen Poutsma
  */
 @Controller
-class VetController {
+public class VetController {
 
-	private final VetRepository vetRepository;
 
-	public VetController(VetRepository clinicService) {
-		this.vetRepository = clinicService;
+
+	@Autowired
+	private VetService vetService;
+	public VetController(VetService clinicService) {
+		this.vetService = clinicService;
 	}
 
 	@GetMapping("/vets.html")
@@ -64,7 +70,7 @@ class VetController {
 	private Page<Vet> findPaginated(int page) {
 		int pageSize = 5;
 		Pageable pageable = PageRequest.of(page - 1, pageSize);
-		return vetRepository.findAll(pageable);
+		return vetService.findAll(pageable);
 	}
 
 	@GetMapping({ "/vets" })
@@ -72,7 +78,7 @@ class VetController {
 		// Here we are returning an object of type 'Vets' rather than a collection of Vet
 		// objects so it is simpler for JSon/Object mapping
 		Vets vets = new Vets();
-		vets.getVetList().addAll(this.vetRepository.findAll());
+		vets.getVetList().addAll(this.vetService.findAll());
 		return vets;
 	}
 
