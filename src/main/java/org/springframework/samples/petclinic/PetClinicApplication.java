@@ -41,7 +41,7 @@ public class PetClinicApplication {
 		SpringApplication.run(PetClinicApplication.class, args);
 	}
 
-	@Bean
+	/*@Bean
 	public CommandLineRunner demoVetRepository(VetRepository vetRepository, SpecialtyRepository specialtyRepository) {
 		return (args) -> {
 			log.info("*****************************************************");
@@ -70,6 +70,6 @@ public class PetClinicApplication {
 				log.info("Vet: " + v);
 			}
 		};
-	}
+	}*/
 
 }
